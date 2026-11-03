@@ -2,40 +2,153 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>我的第一个个人主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>女朋友生日倒计时</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
+            background-color: #f4f5f7;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
+
         .card {
-            background: white;
-            padding: 40px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            max-width: 360px;
+            width: 85%;
+        }
+
+        h2 {
+            color: #2b6cb0;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .photo {
+            width: 100%;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 400px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
         }
-        h1 {
-            color: #1a73e8;
-            margin-bottom: 10px;
+
+        .photo:hover {
+            transform: scale(1.02);
         }
-        p {
-            color: #5f6368;
-            line-height: 1.6;
+
+        /* 倒计时样式 */
+        .countdown-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            background: #ebf8ff;
+            padding: 15px 10px;
+            border-radius: 12px;
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .num {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2b6cb0;
+        }
+
+        .label {
+            font-size: 11px;
+            color: #4a5568;
+            margin-top: 4px;
+        }
+
+        .bless-text {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #e53e3e;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
+
     <div class="card">
-        <h1>你好，欢迎来到我的网站！</h1>
-        <p>这是我手动搭建的第一个网页。</p>
-<img src="photo1.jpg" alt="我的照片" width="200">
+        <h2>距离宝的生日还有 ❤️</h2>
+        <div class="subtitle">期待我们一起过的又一个生日！</div>
+        
+        <!-- 这里用你刚才上传的图片名字，如果叫其他名字记得修改此处的 photo1.jpg -->
+        <img class="photo" src="photo.jpg" alt="我们的合照">
+
+        <div class="countdown-container">
+            <div class="time-box">
+                <span class="num" id="days">00</span>
+                <span class="label">天</span>
+            </div>
+            <div class="time-box">
+                <span class="num" id="hours">00</span>
+                <span class="label">时</span>
+            </div>
+            <div class="time-box">
+                <span class="num" id="minutes">00</span>
+                <span class="label">分</span>
+            </div>
+            <div class="time-box">
+                <span class="num" id="seconds">00</span>
+                <span class="label">秒</span>
+            </div>
+        </div>
+
+        <div class="bless-text" id="status-text">倒计时进行中...</div>
     </div>
+
+    <script>
+        // ⚠️【关键修改区域】：请把这里的日期改成你女朋友的生日时间（年-月-日 时:分:秒）
+        const targetDate = new Date('2026-11-28T00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerText = String(days).padStart(2, '0');
+                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+            } else {
+                document.getElementById('status-text').innerText = "🎂 祝宝贝生日快乐！❤️";
+                document.getElementById('days').innerText = '00';
+                document.getElementById('hours').innerText = '00';
+                document.getElementById('minutes').innerText = '00';
+                document.getElementById('seconds').innerText = '00';
+            }
+        }
+
+        // 初始运行一次，并设为每秒刷新一次
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+
 </body>
 </html>
